@@ -2,3 +2,4 @@
 *.json
 */test
 */SomeFunc.c
+!test.cpp
