@@ -13,9 +13,9 @@ const double EPS = 1e-6;
 class Sample {
 public:
 	int v;
-    Sample(int n){
-        return v;
-    }
+    Sample(){}
+    Sample(int n){v=n;}
+    Sample(const Sample&s){v=s.v+2;}
 };
 void PrintAndDouble(Sample o)
 {
