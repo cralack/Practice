@@ -1,36 +1,53 @@
-#include<iostream>
-#include<cstring>
-#include<string>
-#include <cstdio>
-#include <sstream>
+#include <iostream>
+#include <string>
+#include <cstring>
 #include <cstdlib>
-#include<memory>
 using namespace std;
 const char*  CodeAuthor = "Honduras Iron Egg";
-const int    N = 30;
+const int       N = 30;
 const double EPS = 1e-6;
 
-class Sample {
+class MyString {
+    char * p;
 public:
-	int v;
-    Sample(){}
-    Sample(int n){v=n;}
-    Sample(const Sample&s){v=s.v+2;}
+    friend ostream & operator<<(ostream&o,const MyString&s);
+    MyString(const char * s) {
+        if( s) {
+            p = new char[strlen(s) + 1];
+            strcpy(p,s);
+        }
+        else
+            p = NULL;
+
+    }
+    ~MyString() { if(p) delete [] p; }
+    MyString(const MyString & str)
+    {
+        if(str.p){
+            p=new char[strlen(str.p)+1];
+            memcpy(p,str.p,strlen(str.p));
+        }
+        else p=NULL;
+    }
+    MyString& Copy(const char *str_)
+    {
+        memcpy(p,str_,strlen(str_));
+    }
 };
-void PrintAndDouble(Sample o)
-{
-	cout << o.v;
-	cout << endl;
-}
+ostream & operator<<(ostream&o,const MyString&s){o<<s.p;return o;}
 int main()
 {
-	Sample a(5);
-	Sample b = a;
-	PrintAndDouble(b);
-	Sample c = 20;
-	PrintAndDouble(c);
-	Sample d;
-	d = a;
-	cout << d.v;
-	return 0;
+    char w1[200],w2[100];
+    while( cin >> w1 >> w2) {
+        MyString s1(w1),s2 = s1;
+        MyString s3(NULL);
+        s3.Copy(w1);
+        cout << s1 << "," << s2 << "," << s3 << endl;
+
+        s2 = w2;
+        s3 = s2;
+        s1 = s3;
+        cout << s1 << "," << s2 << "," << s3 << endl;
+
+    }
 }
