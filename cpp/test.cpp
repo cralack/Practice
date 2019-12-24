@@ -10,7 +10,7 @@ const double EPS = 1e-6;
 class MyString {
     char * p;
 public:
-    friend ostream & operator<<(ostream&o,const MyString&s);
+    friend ostream & operator<<(ostream&o,const MyString&s){o<<s.p;return o;}
     MyString(const char * s) {
         if( s) {
             p = new char[strlen(s) + 1];
@@ -25,16 +25,45 @@ public:
     {
         if(str.p){
             p=new char[strlen(str.p)+1];
-            memcpy(p,str.p,strlen(str.p));
+            strcpy(p,str.p);
         }
         else p=NULL;
     }
-    MyString& Copy(const char *str_)
+    void Copy(const char *str)
     {
-        memcpy(p,str_,strlen(str_));
+        if (str)
+        {
+            delete[]p;
+            p=new char[strlen(str)+1];
+            strcpy(p,str);
+        }
+        else
+        {
+            p=NULL;
+        }
+    }
+    MyString & operator =(const char * str){
+        if(str){
+            delete[]p;
+            p=new char[strlen(str)+1];
+            strcpy(p,str);
+            return *this;
+        }
+        else p=NULL;
+    }
+    MyString & operator =(const MyString& s){
+        if (this == &s) {
+            return *this;
+        }
+        if(s.p){
+            delete[]p;
+            p=new char[strlen(s.p)+1];
+            strcpy(p,s.p);
+            return *this;
+        }
+        else p=NULL;
     }
 };
-ostream & operator<<(ostream&o,const MyString&s){o<<s.p;return o;}
 int main()
 {
     char w1[200],w2[100];
